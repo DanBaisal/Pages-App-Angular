@@ -1,14 +1,70 @@
 <nav>
   <ul class="pagination">
+    <li class="page-item"
+    [appClass]="{ disabled: currentPage === 0 }"
+    >
+      <a 
+      class="page-link" 
+      (click)="currentPage = currentPage - 1"
+      >Prev</a>
+    </li>
+
+    <!-- <ng-container *ngFor="let image of images; let i = index"> -->
+      <ng-container *appTimes="images.length; let i = index">
     <li 
     class="page-item" 
-    [ngClass]="{ active: i === currentPage }"
-    *ngFor="let image of images; let i = index"
+    [appClass]="{ active: i === currentPage }"
+    *ngIf="checkWindowIndex(i)"
     >
-      <a class="page-link">{{ i + 1 }}</a>
+      <a (click)="currentPage = i" class="page-link">{{ i + 1 }}</a>
+    </li>
+  </ng-container>
+
+    <li class="page-item"
+    [appClass]="{ disabled: currentPage === images.length - 1 }"
+    >
+      <a 
+      class="page-link"
+      (click)="currentPage = currentPage + 1"
+      >Next</a>
     </li>
   </ul>
 </nav>
 
+<div>
+  <h4>{{ images[currentPage].title }}</h4>
+  <img [src]="images[currentPage].url" alt="{{ images[currentPage].title }}">
+</div>
+
 <!-- To add or remove class we can use [ngClass]. -->
 <!-- It creates an object, where the class (active) is passed as a key and the value is a boolean -->
+
+<!-- ngContainer is used when you have to use 2 structural directives on 1 element. It's not actually shown -->
+
+<!-- We outsourced the page reduction to a method, because you can't specify Math objects in templates directly -->
+
+
+
+<!-- ngSwitch: specifies an expression to match against. 
+  The expressions to match are provided by ngSwitchCase directives on views within the container. 
+Every view that matches is rendered.
+If there are no matches, a view with the ngSwitchDefault directive is rendered.
+-->
+<!-- <div [ngSwitch]="currentPage">
+  <div *ngSwitchCase=0>
+    Current Page is 0
+  </div>
+  <div *ngSwitchCase=2>
+    Current Page is 2
+  </div>
+  <div *ngSwitchCase=3>
+    Current Page is 3
+  </div>
+  <div *ngSwitchDefault>
+    Unknown Current Page
+  </div>
+</div> -->
+
+<!-- <ul *appTimes="5">
+  <li>Hi there!</li>
+</ul> -->
